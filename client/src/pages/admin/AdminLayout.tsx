@@ -49,7 +49,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           <div className="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white">
             <Sparkles className="w-4 h-4" />
           </div>
-          <span className="font-bold text-sm">CeylonCatch Admin</span>
+          <span className="font-bold text-sm">Ocean Fresh Admin</span>
         </div>
         <button
           onClick={() => setMobileNavOpen(!mobileNavOpen)}
@@ -71,9 +71,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             </div>
             <div>
               <div className="text-sm font-black tracking-tight text-white font-sans">
-                CEYLON<span className="text-cyan-400">CATCH</span>
+                OCEAN <span className="text-cyan-400">FRESH</span>
               </div>
-              <p className="text-[10px] text-slate-400 font-medium">Kirulapone Central Hub</p>
+              <p className="text-[10px] text-slate-400 font-medium">Ocean Fresh Seafoods (Pvt) Ltd.</p>
             </div>
           </div>
 

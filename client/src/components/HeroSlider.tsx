@@ -10,7 +10,7 @@ const slides = [
   {
     id: 1,
     tag: 'Kirulapone Store • Fast Colombo Delivery',
-    title: 'CEYLON CATCH',
+    title: 'OCEAN FRESH SEAFOODS',
     subtitle: 'PREMIUM SEAFOOD AT YOUR DOORSTEP',
     description: 'Directly sourced from sustainable ocean day-boats and lagoon fishermen. Cleaned, portioned, and delivered fresh in chilled thermal packaging.',
     badge: 'Cash on Delivery Across Colombo',

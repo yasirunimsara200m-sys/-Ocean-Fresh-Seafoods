@@ -40,7 +40,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackTo
             <Sparkles className="w-7 h-7 text-cyan-200" />
           </div>
           <h2 className="text-2xl font-black tracking-tight text-white">
-            CeylonCatch Admin Portal
+            Ocean Fresh Seafoods Admin Portal
           </h2>
           <p className="text-xs text-slate-400">
             Log in to manage seafood inventory, customer orders, and outlet fulfillment.

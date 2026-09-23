@@ -110,7 +110,7 @@ export const OutletsPage: React.FC<OutletsPageProps> = ({ onSelectAndShop }) => 
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <a
-                href="https://wa.me/94784798095?text=Hello%20CeylonCatch%2C%20I%20would%20like%20to%20inquire%20about%20today%27s%20fresh%20seafood%20availability."
+                href="https://wa.me/94784798095?text=Hello%20Ocean%20Fresh%20Seafoods%2C%20I%20would%20like%20to%20inquire%20about%20today%27s%20fresh%20seafood%20availability."
                 target="_blank"
                 rel="noreferrer"
                 className="px-5 py-3 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-bold text-xs rounded-xl border border-emerald-200 transition-colors flex items-center justify-center space-x-1.5"

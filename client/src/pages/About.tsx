@@ -21,7 +21,7 @@ export const About: React.FC<AboutProps> = ({ onShopClick }) => {
               Sri Lanka's Freshest <span className="text-cyan-400">Ocean-to-Door</span> Seafood Experience
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              CeylonCatch was built on a simple belief: every Sri Lankan family deserves the same export-grade, boat-fresh seafood that once only reached overseas tables. From our Kirulapone Hub, we deliver the ocean's finest — cleaned, portioned, and cold-packed — straight to your kitchen door.
+              Ocean Fresh Seafoods (Pvt) Ltd. was built on a simple belief: every Sri Lankan family deserves the same export-grade, boat-fresh seafood that once only reached overseas tables. From our Kirulapone Hub, we deliver the ocean's finest — cleaned, portioned, and cold-packed — straight to your kitchen door.
             </p>
             <div className="pt-2">
               <button
@@ -58,7 +58,7 @@ export const About: React.FC<AboutProps> = ({ onShopClick }) => {
                 To be Sri Lanka's most trusted gateway to the freshest ocean catch.
               </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                We envision a Sri Lanka where every household — from a tiny apartment in Colombo 3 to a villa in Mount Lavinia — can access ocean-fresh, export-grade seafood as easily as ordering from a neighbourhood kade. CeylonCatch exists to make that future the everyday reality.
+                We envision a Sri Lanka where every household — from a tiny apartment in Colombo 3 to a villa in Mount Lavinia — can access ocean-fresh, export-grade seafood as easily as ordering from a neighbourhood kade. Ocean Fresh Seafoods exists to make that future the everyday reality.
               </p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export const About: React.FC<AboutProps> = ({ onShopClick }) => {
               </div>
               <h3 className="text-base font-bold text-slate-900">Export Quality, Local Price</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                For decades Sri Lanka's finest seafood only reached overseas tables. CeylonCatch pioneered bringing that exact same five-star export quality straight to local kitchen counters — without the export price tag.
+                For decades Sri Lanka's finest seafood only reached overseas tables. Ocean Fresh Seafoods pioneered bringing that exact same five-star export quality straight to local kitchen counters — without the export price tag.
               </p>
             </div>
 
@@ -155,15 +155,15 @@ export const About: React.FC<AboutProps> = ({ onShopClick }) => {
           </div>
         </div>
 
-        {/* ─── Why Choose CeylonCatch ─── */}
+        {/* ─── Why Choose Ocean Fresh Seafoods ─── */}
         <div className="bg-gradient-to-r from-cyan-950 to-slate-900 rounded-3xl p-8 sm:p-12 text-white space-y-8 shadow-xl">
           <div className="max-w-xl space-y-3">
-            <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400">Why CeylonCatch?</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400">Why Ocean Fresh Seafoods?</span>
             <h2 className="text-2xl sm:text-3xl font-black leading-snug">
               The difference is in every detail.
             </h2>
             <p className="text-xs text-slate-300 leading-relaxed">
-              CeylonCatch is not another middleman seafood app. We own the entire cold chain — from dock to your door — and that control is what guarantees the freshness and quality we promise on every single order.
+              Ocean Fresh Seafoods (Pvt) Ltd. is not another middleman seafood app. We own the entire cold chain — from dock to your door — and that control is what guarantees the freshness and quality we promise on every single order.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">

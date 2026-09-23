@@ -7,7 +7,7 @@ export const Contact: React.FC = () => {
   const { selectedOutlet } = useOutlet();
   const outletAddress = selectedOutlet?.address || '#142, High Level Road, Kirulapone, Colombo 5, Sri Lanka';
   const outletPhone = selectedOutlet?.phone || '+94 78 479 8095';
-  const outletEmail = selectedOutlet?.email || 'orders@ceyloncatch.lk';
+  const outletEmail = selectedOutlet?.email || 'orders@oceanfresh.lk';
   const outletHours = selectedOutlet?.opening_hours || 'Monday - Sunday: 7:30 AM - 7:30 PM (Daily Fresh Catch)';
 
   const [formData, setFormData] = useState({
@@ -68,7 +68,7 @@ export const Contact: React.FC = () => {
             Get In Touch
           </span>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-3">
-            Contact CeylonCatch
+            Contact Ocean Fresh Seafoods
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-2">
             Have questions regarding fresh catch availability, catering orders, or delivery zones? Reach out to our dedicated team.

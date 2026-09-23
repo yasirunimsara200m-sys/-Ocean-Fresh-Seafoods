@@ -89,7 +89,7 @@ export const TrackOrder: React.FC<TrackOrderProps> = ({ initialOrderNumber = '',
               <input
                 type="text"
                 required
-                placeholder="Enter CeylonCatch Order Number (e.g. CC-92841)"
+                placeholder="Enter Ocean Fresh Order Number (e.g. OFS-92841 / CC-92841)"
                 value={orderNumber}
                 onChange={(e) => setOrderNumber(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold uppercase text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -105,18 +105,18 @@ export const TrackOrder: React.FC<TrackOrderProps> = ({ initialOrderNumber = '',
           </form>
 
           {/* If user placed a recent order, show option to view it */}
-          {localStorage.getItem('ceyloncatch_last_order') && (
+          {(localStorage.getItem('oceanfresh_last_order') || localStorage.getItem('ceyloncatch_last_order')) && (
             <div className="flex items-center space-x-2 mt-3 text-[11px] text-slate-500">
               <span>Your recent order:</span>
               <button
                 onClick={() => {
-                  const last = localStorage.getItem('ceyloncatch_last_order') || '';
+                  const last = localStorage.getItem('oceanfresh_last_order') || localStorage.getItem('ceyloncatch_last_order') || '';
                   setOrderNumber(last);
                   handleSearch(last);
                 }}
                 className="text-cyan-600 hover:underline font-mono font-bold cursor-pointer bg-cyan-50 px-2 py-0.5 rounded-md border border-cyan-200"
               >
-                {localStorage.getItem('ceyloncatch_last_order')}
+                {localStorage.getItem('oceanfresh_last_order') || localStorage.getItem('ceyloncatch_last_order')}
               </button>
             </div>
           )}

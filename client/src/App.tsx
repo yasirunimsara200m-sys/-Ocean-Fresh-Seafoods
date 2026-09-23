@@ -128,7 +128,7 @@ function MainApp() {
           <Sparkles className="w-7 h-7 text-cyan-300" />
         </div>
         <div className="text-center space-y-1">
-          <h2 className="text-lg font-black tracking-tight">CEYLON<span className="text-cyan-400">CATCH</span></h2>
+          <h2 className="text-lg font-black tracking-tight">OCEAN <span className="text-cyan-400">FRESH</span></h2>
           <p className="text-xs text-slate-400">Loading fresh ocean catch from Kirulapone Hub...</p>
         </div>
       </div>

@@ -69,7 +69,7 @@ ${itemsListText}
 *Grand Total Due:* Rs. ${order.total_amount.toLocaleString()}
 ${order.special_notes ? `\n*Instructions:* ${order.special_notes}` : ''}
 ---------------------------------------
-_Dispatched directly from CeylonCatch Kirulapone Hub_`;
+_Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
 
     return `https://wa.me/94784798095?text=${encodeURIComponent(message)}`;
   };
@@ -120,6 +120,7 @@ _Dispatched directly from CeylonCatch Kirulapone Hub_`;
       // 1. ALWAYS save to Backend Database so Admin Dashboard receives the order!
       const result = await api.createOrder(orderPayload);
       clearCart();
+      localStorage.setItem('oceanfresh_last_order', result.order.order_number);
       localStorage.setItem('ceyloncatch_last_order', result.order.order_number);
 
       // Confetti celebration

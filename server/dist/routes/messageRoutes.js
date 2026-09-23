@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
     INSERT INTO messages (id, name, email, phone, subject, message)
     VALUES (?, ?, ?, ?, ?, ?)
   `).run(id, name, email, phone || '', subject, message);
-    res.status(201).json({ success: true, message: 'Thank you for contacting us! Our team will get back to you shortly.', id });
+    res.status(201).json({ message: 'Thank you for contacting us! Our team will get back to you shortly.' });
 });
 // GET /api/messages (Admin list)
 router.get('/', requireAdmin, (req, res) => {

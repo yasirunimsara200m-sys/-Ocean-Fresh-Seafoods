@@ -127,8 +127,8 @@ router.get('/:id', requireAdmin, (req, res) => {
         return res.status(404).json({ error: 'Order not found' });
     res.json({ order: formatOrder(order) });
 });
-// PATCH / PUT /api/orders/:id/status (Admin update status)
-const updateStatusHandler = (req, res) => {
+// PATCH /api/orders/:id/status (Admin update status)
+router.patch('/:id/status', requireAdmin, (req, res) => {
     const { id } = req.params;
     const { order_status, payment_status } = req.body;
     const validStatuses = ['pending', 'processing', 'out_for_delivery', 'delivered', 'cancelled'];
@@ -143,7 +143,5 @@ const updateStatusHandler = (req, res) => {
   `).run(order_status, payment_status, id);
     const updated = db.prepare('SELECT * FROM orders WHERE id = ?').get(id);
     res.json({ order: formatOrder(updated), message: 'Order status updated successfully' });
-};
-router.patch('/:id/status', requireAdmin, updateStatusHandler);
-router.put('/:id/status', requireAdmin, updateStatusHandler);
+});
 export default router;

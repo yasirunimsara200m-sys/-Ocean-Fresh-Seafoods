@@ -35,12 +35,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
                 <Sparkles className="w-5 h-5 text-cyan-200" />
               </div>
               <span className="text-2xl font-black tracking-tight text-white font-sans">
-                CEYLON<span className="text-cyan-400">CATCH</span>
+                OCEAN <span className="text-cyan-400">FRESH</span>
               </span>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Sri Lanka's premier ocean-to-kitchen seafood delivery service. Operating from our central retail and packaging hub in Kirulapone, Colombo 5. Enjoy pure fresh day-boat fish, cleaned mud crabs, and jumbo prawns with convenient Cash on Delivery.
+              Ocean Fresh Seafoods (Pvt) Ltd. is Sri Lanka's premier ocean-to-kitchen seafood delivery service. Operating from our central retail and packaging hub in Kirulapone, Colombo 5. Enjoy pure fresh day-boat fish, cleaned mud crabs, and jumbo prawns with convenient Cash on Delivery.
             </p>
 
             <div className="pt-2 space-y-2.5 text-xs">
@@ -91,7 +91,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
               </li>
               <li>
                 <button onClick={() => onNavClick('about')} className="hover:text-cyan-400 transition-colors cursor-pointer">
-                  About CeylonCatch
+                  About Ocean Fresh Seafoods
                 </button>
               </li>
               <li>
@@ -177,7 +177,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
-          <p>© 2026 CeylonCatch Seafood. All rights reserved. Kirulapone, Colombo.</p>
+          <p>© 2026 Ocean Fresh Seafoods (Pvt) Ltd. All rights reserved. Kirulapone, Colombo.</p>
           <div className="flex items-center space-x-4">
             <span>High Level Road, Kirulapone</span>
             <span>|</span>

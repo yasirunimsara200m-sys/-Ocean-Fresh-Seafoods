@@ -142,7 +142,7 @@ export function initDatabase() {
         city: 'Kirulapone, Colombo 5',
         address: 'No. 142, High Level Road, Kirulapone, Colombo 5',
         phone: '+94 78 479 8095',
-        email: 'orders@ceyloncatch.lk',
+        email: 'orders@oceanfresh.lk',
         opening_hours: '7:30 AM - 7:30 PM (Daily Fresh Catch & Delivery)',
         is_active: 1
       }
@@ -261,7 +261,7 @@ export function initDatabase() {
         slug: 'export-grade-yellowfin-tuna-steaks',
         category_id: 'cat-fish',
         short_description: 'Ruby red, lean, sashimi-standard yellowfin tuna from sustainable longline fisheries.',
-        description: 'CeylonCatch grade AAA yellowfin tuna carefully processed in HACCP & EU-certified processing facilities. Rich in Omega-3 fatty acids and packed with wholesome goodness. Perfect for seared tuna steaks with sesame crust or fresh sashimi.',
+        description: 'Ocean Fresh Seafoods grade AAA yellowfin tuna carefully processed in HACCP & EU-certified processing facilities. Rich in Omega-3 fatty acids and packed with wholesome goodness. Perfect for seared tuna steaks with sesame crust or fresh sashimi.',
         base_price: 2950,
         original_price: 3300,
         unit: '1 KG',

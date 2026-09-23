@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initDatabase } from './db.js';
-import fs from 'fs';
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
@@ -33,26 +32,14 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin/stats', statsRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', service: 'CeylonCatch Seafood API', time: new Date() });
+    res.json({ status: 'ok', service: 'TSG Fresh Seafood API', time: new Date() });
 });
-// Serve frontend build in production if available
-const clientDistPath = path.resolve(__dirname, '../../client/dist');
-if (fs.existsSync(clientDistPath)) {
-    app.use(express.static(clientDistPath));
-    // Express 5 compatible SPA fallback
-    app.use((req, res, next) => {
-        if (req.method === 'GET' && !req.path.startsWith('/api')) {
-            return res.sendFile(path.join(clientDistPath, 'index.html'));
-        }
-        next();
-    });
-}
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).json({ error: err.message || 'Internal server error' });
 });
 app.listen(PORT, () => {
-    console.log(`🦞 CeylonCatch API Server running on port ${PORT}`);
+    console.log(`🦞 Seafood API Server running on port ${PORT}`);
     console.log(`👉 http://localhost:${PORT}/api/health`);
 });

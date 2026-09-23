@@ -128,15 +128,15 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, onOpe
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center space-x-1">
-                    <span className="text-lg sm:text-2xl font-black tracking-tight text-slate-900 font-sans leading-none">
-                      CEYLON<span className="text-cyan-600">CATCH</span>
+                    <span className="text-base sm:text-xl font-black tracking-tight text-slate-900 font-sans leading-none">
+                      OCEAN <span className="text-cyan-600">FRESH</span>
                     </span>
                     <span className="hidden sm:inline text-[10px] uppercase font-bold bg-cyan-100 text-cyan-900 px-1.5 py-0.5 rounded tracking-wide">
-                      Premium
+                      Pvt Ltd
                     </span>
                   </div>
                   <p className="hidden sm:block text-[11px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
-                    Seafood Store • Kirulapone
+                    Ocean Fresh Seafoods • Kirulapone
                   </p>
                 </div>
               </button>
