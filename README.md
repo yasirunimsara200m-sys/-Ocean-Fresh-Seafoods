@@ -1,6 +1,6 @@
-# 🦞 TSG Fresh • Modern Seafood E-Commerce Platform & Admin Panel
+# 🦞 Ocean Fresh Seafoods (Pvt) Ltd. • Modern Seafood E-Commerce Platform & Admin Panel
 
-An ultra-modern, full-stack seafood e-commerce web platform and comprehensive administrative control panel inspired by **TSG Fresh (Taprobane Fresh)** (https://tsg-fresh.com/) but elevated with modern UI/UX design, responsive micro-interactions, and instant cold-chain dispatch scheduling.
+An ultra-modern, full-stack seafood e-commerce web platform and comprehensive administrative control panel inspired by **TSG Fresh (Taprobane Fresh)** but elevated with modern UI/UX design, responsive micro-interactions, and instant cold-chain dispatch scheduling.
 
 ---
 
