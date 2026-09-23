@@ -32,14 +32,17 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin/stats', statsRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', service: 'TSG Fresh Seafood API', time: new Date() });
+    res.json({ status: 'ok', service: 'Ocean Fresh Seafoods API', time: new Date() });
 });
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).json({ error: err.message || 'Internal server error' });
 });
-app.listen(PORT, () => {
-    console.log(`🦞 Seafood API Server running on port ${PORT}`);
-    console.log(`👉 http://localhost:${PORT}/api/health`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`🦞 Ocean Fresh Seafoods API running on port ${PORT}`);
+        console.log(`👉 http://localhost:${PORT}/api/health`);
+    });
+}
+export default app;
