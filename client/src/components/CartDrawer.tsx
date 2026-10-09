@@ -142,9 +142,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onCheckout, onExplore })
                   <span className="font-semibold text-slate-800">Rs. {subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-slate-500">
-                  <span>Chilled Insulated Delivery</span>
-                  <span className="font-semibold text-slate-800">Rs. {deliveryFee.toLocaleString()}</span>
+                  <span>Chilled Delivery (Colombo & Suburbs)</span>
+                  <span className={`font-semibold ${deliveryFee === 0 ? 'text-emerald-600 font-bold' : 'text-slate-800'}`}>
+                    {deliveryFee === 0 ? 'FREE' : `Rs. ${deliveryFee.toLocaleString()}`}
+                  </span>
                 </div>
+                {subtotal < 15000 && (
+                  <p className="text-[10px] text-amber-700 bg-amber-50 px-2 py-1 rounded-md">
+                    💡 Add <strong>Rs. {(15000 - subtotal).toLocaleString()}</strong> more to get <strong>FREE Delivery</strong>! (Orders over Rs. 15,000)
+                  </p>
+                )}
                 <div className="flex justify-between text-sm font-black text-slate-900 pt-2 border-t border-slate-200">
                   <span>Total Amount</span>
                   <span className="text-cyan-700">Rs. {total.toLocaleString()}</span>

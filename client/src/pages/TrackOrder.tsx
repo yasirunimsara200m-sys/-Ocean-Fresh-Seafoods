@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { Order } from '../types';
-import { Search, PackageCheck, Clock, Truck, CheckCircle2, AlertCircle, Phone, MapPin, Calendar, Sparkles } from 'lucide-react';
+import { Search, PackageCheck, Clock, Truck, CheckCircle2, AlertCircle, Phone, MapPin, Calendar, Sparkles, Printer } from 'lucide-react';
+import { InvoiceModal } from '../components/InvoiceModal';
 
 interface TrackOrderProps {
   initialOrderNumber?: string;
@@ -13,6 +14,7 @@ export const TrackOrder: React.FC<TrackOrderProps> = ({ initialOrderNumber = '',
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showInvoice, setShowInvoice] = useState(false);
 
   useEffect(() => {
     if (initialOrderNumber) {
@@ -203,7 +205,7 @@ export const TrackOrder: React.FC<TrackOrderProps> = ({ initialOrderNumber = '',
                 </div>
                 <div className="font-bold text-slate-900">Direct Cold-Chain Dispatch</div>
                 <div className="text-slate-600">Insulated Ice-Box Delivery</div>
-                <div className="text-cyan-700 font-medium">Hub: {order.outlet_name || 'Kirulapone Central Hub'}</div>
+                <div className="text-cyan-700 font-medium">Hub: {order.outlet_name || 'Athurugiriya Central Hub'}</div>
               </div>
             </div>
 
@@ -237,21 +239,32 @@ export const TrackOrder: React.FC<TrackOrderProps> = ({ initialOrderNumber = '',
               </div>
             </div>
 
+            {/* Print Invoice Action Button */}
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setShowInvoice(true)}
+                className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 px-5 rounded-xl shadow transition-all cursor-pointer"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Download / Print Invoice</span>
+              </button>
+            </div>
+
             {/* Dispatch Hotline Banner */}
             <div className="bg-cyan-50/80 p-4 rounded-2xl border border-cyan-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
               <div className="flex items-center space-x-2 text-cyan-950">
                 <Phone className="w-4 h-4 text-cyan-700 shrink-0" />
-                <span>Need urgent assistance with this delivery? Reach our Kirulapone dispatch hotline.</span>
+                <span>Need urgent assistance with this delivery? Reach our Athurugiriya dispatch hotline.</span>
               </div>
               <div className="flex items-center space-x-2">
                 <a
-                  href="tel:+94784798095"
+                  href="tel:+94723426084"
                   className="bg-cyan-700 hover:bg-cyan-800 text-white font-bold px-4 py-2 rounded-xl shrink-0 cursor-pointer transition-colors"
                 >
-                  +94 78 479 8095
+                  +94 72 342 6084
                 </a>
                 <a
-                  href="https://wa.me/94784798095"
+                  href="https://wa.me/94723426084"
                   target="_blank"
                   rel="noreferrer"
                   className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-2 rounded-xl shrink-0 cursor-pointer transition-colors"
@@ -262,6 +275,13 @@ export const TrackOrder: React.FC<TrackOrderProps> = ({ initialOrderNumber = '',
               </div>
             </div>
           </div>
+        )}
+        {showInvoice && order && (
+          <InvoiceModal
+            order={order}
+            onClose={() => setShowInvoice(false)}
+            mode="customer"
+          />
         )}
       </div>
     </div>

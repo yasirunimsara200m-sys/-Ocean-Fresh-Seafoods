@@ -5,10 +5,10 @@ import { useOutlet } from '../context/OutletContext';
 
 export const Contact: React.FC = () => {
   const { selectedOutlet } = useOutlet();
-  const outletAddress = selectedOutlet?.address || '#142, High Level Road, Kirulapone, Colombo 5, Sri Lanka';
-  const outletPhone = selectedOutlet?.phone || '+94 78 479 8095';
+  const outletAddress = selectedOutlet?.address || '304/A, Godagama Road, Athurugiriya, Sri Lanka';
+  const outletPhone = selectedOutlet?.phone || '+94 72 342 6084';
   const outletEmail = selectedOutlet?.email || 'orders@oceanfresh.lk';
-  const outletHours = selectedOutlet?.opening_hours || 'Monday - Sunday: 7:30 AM - 7:30 PM (Daily Fresh Catch)';
+  const outletHours = selectedOutlet?.opening_hours || 'Monday - Sunday: 8:00 AM - 7:30 PM (Daily Online Orders & Delivery)';
 
   const [formData, setFormData] = useState({
     name: '',
@@ -47,7 +47,11 @@ export const Contact: React.FC = () => {
     },
     {
       q: 'What are your delivery areas and cut-off times?',
-      a: 'We deliver daily across Colombo 1-15 and suburbs (Rajagiriya, Battaramulla, Dehiwala, Mount Lavinia, Negombo, etc.) as well as Kandy. Orders placed before 2:00 PM are eligible for same-day delivery.',
+      a: 'We deliver daily across Colombo 1-15 and suburbs (Athurugiriya, Malabe, Kottawa, Maharagama, Rajagiriya, Battaramulla, Dehiwala, Mount Lavinia, etc.). Orders placed before 2:00 PM are eligible for same-day delivery.',
+    },
+    {
+      q: 'Can I visit the store to buy seafood directly?',
+      a: 'Ocean Fresh Seafoods operates exclusively as a central cold-chain fulfillment and dispatch warehouse to guarantee maximum sub-zero hygiene and freshness. We do not have a walk-in retail store counter — all orders are placed online or via WhatsApp and delivered directly to your doorstep.',
     },
     {
       q: 'Can I request specific cuts or whole fish cleaned?',
@@ -55,7 +59,7 @@ export const Contact: React.FC = () => {
     },
     {
       q: 'What payment methods do you accept?',
-      a: 'We accept Cash on Delivery (COD), Online Debit & Credit Cards (via secure PayHere gateway), and direct Bank Transfer / FriMi deposits.',
+      a: 'We accept Cash on Delivery (COD) upon receiving your order, as well as direct Bank Transfer / FriMi deposits and Online Cards.',
     },
   ];
 
@@ -81,16 +85,19 @@ export const Contact: React.FC = () => {
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-slate-900 rounded-3xl p-8 text-white space-y-6 shadow-xl">
               <div>
-                <h3 className="text-xl font-bold">Central Hub & Flagship Store</h3>
-                <p className="text-xs text-slate-400 mt-1">Visit our Kirulapone fresh seafood hub or order online for fast home delivery.</p>
+                <h3 className="text-xl font-bold">Central Fulfillment & Dispatch Hub</h3>
+                <p className="text-xs text-slate-400 mt-1">Online orders and direct home delivery straight to your doorstep.</p>
               </div>
 
               <div className="space-y-4 text-xs text-slate-300">
                 <div className="flex items-start space-x-3">
                   <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-white block">Central Store Address:</strong>
+                    <strong className="text-white block">Dispatch Hub Address:</strong>
                     <span>{outletAddress}</span>
+                    <span className="text-[11px] text-amber-300/80 block italic mt-1 font-medium">
+                      * Direct delivery only — no walk-in retail store counter.
+                    </span>
                   </div>
                 </div>
 

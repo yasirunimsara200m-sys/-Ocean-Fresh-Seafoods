@@ -42,10 +42,10 @@ export const Home: React.FC<HomeProps> = ({
           <div className="flex items-center space-x-2 text-slate-300">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0" />
             <span>
-              Direct Daily Seafood Dispatch from <strong className="text-white">Kirulapone Flagship Store</strong> across Colombo
+              Direct Daily Seafood Dispatch from <strong className="text-white">Athurugiriya Central Hub</strong> across Colombo & Suburbs
             </span>
             <span className="text-slate-500 hidden md:inline">•</span>
-            <span className="text-emerald-400 font-semibold hidden md:inline">Cash on Delivery & WhatsApp Orders Available</span>
+            <span className="text-emerald-400 font-semibold hidden md:inline">FREE Delivery over Rs. 15,000 • Delivery Fee Rs. 450</span>
           </div>
 
           <button
@@ -53,7 +53,7 @@ export const Home: React.FC<HomeProps> = ({
             className="text-cyan-400 hover:text-cyan-300 font-semibold flex items-center space-x-1 cursor-pointer"
           >
             <MapPin className="w-3.5 h-3.5" />
-            <span>Store Address & Delivery Areas →</span>
+            <span>Hub Address & Delivery Coverage →</span>
           </button>
         </div>
       </div>
@@ -118,7 +118,7 @@ export const Home: React.FC<HomeProps> = ({
                 Chef's Recommended Cuts
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Air-flown Norwegian salmon, sashimi tuna loins, and artisanal prawn bites.
+                Norwegian salmon steak, Barramundi fillets, Seer fish cubes, and cleaned ocean squid.
               </p>
             </div>
 

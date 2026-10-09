@@ -1,10 +1,6 @@
 # 🦞 Ocean Fresh Seafoods (Pvt) Ltd. • Modern Seafood E-Commerce Platform & Admin Panel
 
-<<<<<<< HEAD
-An ultra-modern, full-stack seafood e-commerce web platform and comprehensive administrative control panel for **Ocean Fresh Seafoods (Pvt) Ltd.**, operating from Kirulapone, Colombo 5. Features modern UI/UX design, responsive micro-interactions, WhatsApp ordering, Cash on Delivery, and live order tracking.
-=======
-An ultra-modern, full-stack seafood e-commerce web platform and comprehensive administrative control panel inspired by **TSG Fresh (Taprobane Fresh)** but elevated with modern UI/UX design, responsive micro-interactions, and instant cold-chain dispatch scheduling.
->>>>>>> acf99cce2d1ce70e3eac45bc69b756e252c4cfcf
+An ultra-modern, full-stack seafood e-commerce web platform and comprehensive administrative control panel for **Ocean Fresh Seafoods (Pvt) Ltd.**, operating from our central cold-chain fulfillment hub in **304/A, Godagama Road, Athurugiriya** (Phone / WhatsApp: **+94 72 342 6084**). Features modern UI/UX design, responsive micro-interactions, WhatsApp direct ordering, Cash on Delivery (COD), and live order tracking. Direct home delivery only (no walk-in retail store).
 
 ---
 

@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
     for (const item of items) {
       subtotal += (Number(item.price) || 0) * (Number(item.quantity) || 1);
     }
-    const delivery_fee = 350; // Standard flat delivery in LKR
+    const delivery_fee = subtotal >= 15000 ? 0 : 450;
     const total_amount = subtotal + delivery_fee;
 
     const payment_status = payment_method === 'card' ? 'paid' : 'pending';

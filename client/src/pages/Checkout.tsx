@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useOutlet } from '../context/OutletContext';
 import { api } from '../services/api';
 import { Order } from '../types';
+import { InvoiceModal } from '../components/InvoiceModal';
 import {
   CheckCircle2,
   ShieldCheck,
@@ -35,7 +36,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ onSuccess, onExplore }) => {
     customer_email: '',
     customer_phone: '',
     delivery_address: '',
-    delivery_city: 'Kirulapone / Colombo 5',
+    delivery_city: 'Athurugiriya / Colombo',
     delivery_date: 'Standard Fast Dispatch',
     delivery_time_slot: 'Direct Cold-Chain',
     special_notes: '',
@@ -45,6 +46,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ onSuccess, onExplore }) => {
   const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
   const [whatsappLink, setWhatsappLink] = useState('');
   const [error, setError] = useState('');
+  const [showInvoice, setShowInvoice] = useState(false);
 
   // Helper to build WhatsApp Message Link
   const createWhatsAppUrl = (order: Order) => {
@@ -58,20 +60,20 @@ export const Checkout: React.FC<CheckoutProps> = ({ onSuccess, onExplore }) => {
 *Phone:* ${order.customer_phone}
 *Address:* ${order.delivery_address}, ${order.delivery_city}
 
-*Delivery:* Fast Cold-Chain Dispatch (Kirulapone Hub)
+*Delivery:* Fast Cold-Chain Dispatch (Athurugiriya Hub)
 *Payment:* Cash on Delivery (COD)
 
 *Items Ordered:*
 ${itemsListText}
 
 *Subtotal:* Rs. ${order.subtotal.toLocaleString()}
-*Insulated Packing & Delivery:* Rs. ${order.delivery_fee.toLocaleString()}
+*Delivery Fee (Colombo & Suburbs):* ${order.delivery_fee === 0 ? 'FREE (Order > Rs. 15,000)' : `Rs. ${order.delivery_fee.toLocaleString()}`}
 *Grand Total Due:* Rs. ${order.total_amount.toLocaleString()}
 ${order.special_notes ? `\n*Instructions:* ${order.special_notes}` : ''}
 ---------------------------------------
-_Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
+_Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Athurugiriya Hub_`;
 
-    return `https://wa.me/94784798095?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/94723426084?text=${encodeURIComponent(message)}`;
   };
 
   const processOrder = async () => {
@@ -101,7 +103,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
         customer_phone: formData.customer_phone,
         delivery_address: formData.delivery_address,
         delivery_city: formData.delivery_city,
-        outlet_id: 'outlet-kirulapone',
+        outlet_id: 'outlet-athurugiriya',
         delivery_date: formData.delivery_date,
         delivery_time_slot: formData.delivery_time_slot,
         payment_method: 'cod',
@@ -153,7 +155,8 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
 
   if (completedOrder) {
     return (
-      <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+      <>
+        <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-100 p-8 sm:p-10 space-y-6">
           {/* Header */}
           <div className="text-center space-y-3">
@@ -167,7 +170,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
               Thank You, {completedOrder.customer_name}!
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
-              Your seafood order has been successfully scheduled at our <strong className="text-slate-800">Kirulapone Store</strong> and is visible in our dispatch dashboard.
+              Your seafood order has been successfully scheduled at our <strong className="text-slate-800">Athurugiriya Central Hub</strong> and is visible in our dispatch dashboard.
             </p>
           </div>
 
@@ -220,7 +223,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
               </div>
               <div>
                 <span className="text-slate-400">Dispatch Hub</span>
-                <p className="font-semibold text-slate-800 mt-0.5">Kirulapone Flagship Store</p>
+                <p className="font-semibold text-slate-800 mt-0.5">Athurugiriya Central Hub</p>
                 <p className="text-slate-500">Payment: <strong className="uppercase text-emerald-700">Cash on Delivery</strong></p>
               </div>
             </div>
@@ -257,6 +260,13 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
               Track Order Status Online →
             </button>
             <button
+              onClick={() => setShowInvoice(true)}
+              className="flex items-center justify-center space-x-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-xl transition-all cursor-pointer"
+            >
+              <span>🖨️</span>
+              <span>Download / Print Invoice</span>
+            </button>
+            <button
               onClick={onExplore}
               className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-all cursor-pointer"
             >
@@ -265,8 +275,16 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
           </div>
         </div>
       </div>
-    );
-  }
+          {showInvoice && (
+            <InvoiceModal
+              order={completedOrder}
+              onClose={() => setShowInvoice(false)}
+              mode="customer"
+            />
+          )}
+        </>
+      );
+    }
 
   if (cart.length === 0) {
     return (
@@ -297,7 +315,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
             <span>Cash on Delivery & WhatsApp Direct Dispatch</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            Checkout • Kirulapone Hub Dispatch
+            Checkout • Athurugiriya Hub Dispatch
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Pay safely in cash when your fresh seafood arrives. You can also confirm the order via WhatsApp with one click.
@@ -384,7 +402,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Kirulapone, Nugegoda, Colombo 3"
+                      placeholder="e.g. Athurugiriya, Malabe, Colombo 3"
                       value={formData.delivery_city}
                       onChange={(e) => setFormData({ ...formData, delivery_city: e.target.value })}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -394,8 +412,8 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">Dispatched From</label>
                     <div className="px-3.5 py-2.5 bg-slate-100 rounded-xl text-xs font-semibold text-slate-800 border border-slate-200 flex items-center justify-between">
-                      <span>Kirulapone Store (Colombo 5)</span>
-                      <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">Central Hub</span>
+                      <span>Athurugiriya Hub (Direct Delivery)</span>
+                      <span className="text-[10px] bg-cyan-100 text-cyan-800 px-1.5 py-0.5 rounded font-bold">Central Hub</span>
                     </div>
                   </div>
                 </div>
@@ -413,7 +431,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
               <div className="bg-cyan-50/70 border border-cyan-200/80 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center space-x-2 text-cyan-950 font-bold text-xs">
                   <Clock className="w-4 h-4 text-cyan-600 shrink-0" />
-                  <span>Fresh Daily Dispatch from Kirulapone Hub</span>
+                  <span>Fresh Daily Dispatch from Athurugiriya Hub</span>
                 </div>
                 <p className="text-[11px] text-cyan-900 leading-relaxed">
                   Your catch is packed fresh in sealed, food-grade thermal ice-boxes to maintain the cold chain. Orders placed before <strong>3:00 PM</strong> are dispatched same-day. Orders placed after 3:00 PM are dispatched first thing the following morning for peak freshness.
@@ -452,7 +470,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
             <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-xs border border-slate-200/80 sticky top-28 space-y-5">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <h3 className="text-sm font-bold text-slate-900">Order Summary ({cart.length} items)</h3>
-                <span className="text-xs font-bold text-cyan-700">Kirulapone Hub</span>
+                <span className="text-xs font-bold text-cyan-700">Athurugiriya Hub</span>
               </div>
 
               {/* Items scroll */}
@@ -484,9 +502,16 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
                   <span className="font-semibold text-slate-800">Rs. {subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-slate-500">
-                  <span>Chilled Insulated Packaging</span>
-                  <span className="font-semibold text-slate-800">Rs. {deliveryFee.toLocaleString()}</span>
+                  <span>Chilled Delivery (Colombo & Suburbs)</span>
+                  <span className={`font-semibold ${deliveryFee === 0 ? 'text-emerald-600 font-bold' : 'text-slate-800'}`}>
+                    {deliveryFee === 0 ? 'FREE (Orders > Rs. 15,000)' : `Rs. ${deliveryFee.toLocaleString()}`}
+                  </span>
                 </div>
+                {deliveryFee > 0 && (
+                  <p className="text-[10px] text-amber-700 bg-amber-50 px-2 py-1 rounded-md">
+                    Orders over <strong>Rs. 15,000</strong> enjoy <strong>FREE Delivery</strong>! (Add Rs. {(15000 - subtotal).toLocaleString()} more)
+                  </p>
+                )}
                 <div className="flex justify-between text-base font-black text-slate-900 pt-3 border-t border-slate-200">
                   <span>Total Due on Arrival</span>
                   <span className="text-cyan-700">Rs. {total.toLocaleString()}</span>
@@ -512,7 +537,7 @@ _Dispatched directly from Ocean Fresh Seafoods (Pvt) Ltd. Kirulapone Hub_`;
                 <div className="p-3 bg-emerald-50/80 border border-emerald-200/80 rounded-xl text-[11px] text-emerald-900 flex items-start space-x-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span>
-                    <strong>Instant Dual Sync:</strong> One click automatically saves your order directly into our <strong>Kirulapone Store Admin Panel</strong> and immediately opens <strong>WhatsApp</strong> with all your seafood order details pre-filled.
+                    <strong>Instant Dual Sync:</strong> One click automatically saves your order directly into our <strong>Athurugiriya Hub Admin Panel</strong> and immediately opens <strong>WhatsApp</strong> with all your seafood order details pre-filled.
                   </span>
                 </div>
               </div>

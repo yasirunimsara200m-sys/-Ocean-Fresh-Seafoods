@@ -9,14 +9,14 @@ interface HeroSliderProps {
 const slides = [
   {
     id: 1,
-    tag: 'Kirulapone Store • Fast Colombo Delivery',
+    tag: 'Cold-Chain Dispatch • Direct Home Delivery',
     title: 'OCEAN FRESH SEAFOODS',
     subtitle: 'PREMIUM SEAFOOD AT YOUR DOORSTEP',
     description: 'Directly sourced from sustainable ocean day-boats and lagoon fishermen. Cleaned, portioned, and delivered fresh in chilled thermal packaging.',
-    badge: 'Cash on Delivery Across Colombo',
+    badge: 'Colombo Delivery • FREE over Rs. 15,000',
     bgImage: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=1920&q=85',
     ctaPrimary: 'Order Fresh Catch',
-    ctaSecondary: 'Visit Kirulapone Store',
+    ctaSecondary: 'Delivery Areas & Hub',
   },
   {
     id: 2,
@@ -31,10 +31,10 @@ const slides = [
   },
   {
     id: 3,
-    tag: 'Lagoon Mud Crab & Tiger Prawns',
+    tag: 'Cleaned Prawns & Ocean Squid',
     title: 'ORDER VIA WEB',
     subtitle: 'OR INSTANT WHATSAPP DIRECT',
-    description: 'Convenient Cash on Delivery with optional 1-click WhatsApp order confirmation. From sashimi tuna to cleaned mud crabs and peeled prawns.',
+    description: 'Convenient Cash on Delivery with optional 1-click WhatsApp order confirmation. From fresh tuna cubes to cleaned squid, salmon, and peeled prawns.',
     badge: 'Convenient Cash on Delivery',
     bgImage: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=1920&q=85',
     ctaPrimary: 'Order Best Sellers',
@@ -86,7 +86,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onShopClick, onOutletsCl
             </span>
             <span className="inline-flex items-center space-x-1 bg-slate-800/80 backdrop-blur-md text-slate-300 text-[10px] sm:text-xs px-2 sm:px-2.5 py-1 rounded-full border border-slate-700">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Kirulapone, Colombo 5</span>
+              <span>Athurugiriya Central Hub</span>
             </span>
           </div>
 

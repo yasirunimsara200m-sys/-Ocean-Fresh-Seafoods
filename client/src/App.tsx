@@ -129,7 +129,7 @@ function MainApp() {
         </div>
         <div className="text-center space-y-1">
           <h2 className="text-lg font-black tracking-tight">OCEAN <span className="text-cyan-400">FRESH</span></h2>
-          <p className="text-xs text-slate-400">Loading fresh ocean catch from Kirulapone Hub...</p>
+          <p className="text-xs text-slate-400">Loading fresh ocean catch from Athurugiriya Hub...</p>
         </div>
       </div>
     );

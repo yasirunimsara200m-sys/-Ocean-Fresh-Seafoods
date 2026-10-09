@@ -11,9 +11,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState('');
 
-  const outletAddress = selectedOutlet?.address || 'No. 142, High Level Road, Kirulapone, Colombo 5';
-  const outletPhone = selectedOutlet?.phone || '+94 78 479 8095';
-  const outletHours = selectedOutlet?.opening_hours || '7:30 AM - 7:30 PM (Fresh Catch Arrival Daily)';
+  const outletAddress = selectedOutlet?.address || '304/A, Godagama Road, Athurugiriya';
+  const outletPhone = selectedOutlet?.phone || '+94 72 342 6084';
+  const outletHours = selectedOutlet?.opening_hours || '8:00 AM - 7:30 PM (Daily Online Orders & Direct Home Delivery)';
   const cleanPhone = outletPhone.replace(/[^0-9]/g, '');
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -40,7 +40,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Ocean Fresh Seafoods (Pvt) Ltd. is Sri Lanka's premier ocean-to-kitchen seafood delivery service. Operating from our central retail and packaging hub in Kirulapone, Colombo 5. Enjoy pure fresh day-boat fish, cleaned mud crabs, and jumbo prawns with convenient Cash on Delivery.
+              Ocean Fresh Seafoods (Pvt) Ltd. is Sri Lanka's premier ocean-to-kitchen seafood delivery service. Operating from our central cold-chain fulfillment hub in Athurugiriya. Enjoy fresh day-boat fish fillets & cubes, cleaned prawns, squid, and handcrafted dumplings with Cash on Delivery across Colombo.
             </p>
 
             <div className="pt-2 space-y-2.5 text-xs">
@@ -111,16 +111,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-widest mb-4">Delivery Zones</h4>
             <div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 text-xs text-slate-400 space-y-2">
-              <div className="font-semibold text-slate-200">Dispatched from Kirulapone:</div>
+              <div className="font-semibold text-slate-200">Colombo & Suburbs Only:</div>
               <ul className="space-y-1 text-[11px] list-disc list-inside text-slate-400">
+                <li>Athurugiriya, Malabe, Hokandara</li>
+                <li>Kottawa, Maharagama, Homagama</li>
+                <li>Battaramulla, Rajagiriya, Kotte</li>
                 <li>Colombo 1 - 15 Central</li>
-                <li>Nugegoda, Kohuwala, Dehiwala</li>
-                <li>Rajagiriya, Battaramulla, Kotte</li>
-                <li>Mount Lavinia & Ratmalana</li>
-                <li>Maharagama & Pannipitiya</li>
+                <li>Nugegoda, Dehiwala, Mount Lavinia</li>
               </ul>
-              <div className="text-[10px] text-emerald-400 pt-1 font-semibold">
-                Same-day & scheduled morning/afternoon delivery
+              <div className="text-[10px] text-cyan-300 pt-1 font-semibold">
+                Delivery: Rs. 450 • <span className="text-emerald-400">FREE over Rs. 15,000</span>
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
           <div className="space-y-4">
             <h4 className="text-xs font-bold text-white uppercase tracking-widest">Fresh Catch Alerts</h4>
             <p className="text-xs text-slate-400">
-              Receive updates on seasonal mud crab arrivals and weekly catches.
+              Receive updates on fresh ocean catch arrivals and weekly offers.
             </p>
 
             {subscribed ? (
@@ -177,9 +177,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
-          <p>© 2026 Ocean Fresh Seafoods (Pvt) Ltd. All rights reserved. Kirulapone, Colombo.</p>
+          <p>© 2026 Ocean Fresh Seafoods (Pvt) Ltd. All rights reserved. Athurugiriya, Sri Lanka.</p>
           <div className="flex items-center space-x-4">
-            <span>High Level Road, Kirulapone</span>
+            <span>304/A, Godagama Road, Athurugiriya</span>
             <span>|</span>
             <button onClick={() => onNavClick('admin')} className="text-cyan-400 hover:text-cyan-300 font-medium cursor-pointer">
               Admin Portal Login

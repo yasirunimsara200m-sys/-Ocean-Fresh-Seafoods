@@ -15,13 +15,13 @@ export const About: React.FC<AboutProps> = ({ onShopClick }) => {
           <div className="relative z-10 max-w-2xl space-y-4">
             <span className="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-widest text-cyan-300 bg-cyan-950/80 border border-cyan-800 px-3 py-1 rounded-full">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Premium Seafood • Kirulapone, Colombo 5</span>
+              <span>Premium Seafood • Athurugiriya Central Hub</span>
             </span>
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
               Sri Lanka's Freshest <span className="text-cyan-400">Ocean-to-Door</span> Seafood Experience
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Ocean Fresh Seafoods (Pvt) Ltd. was built on a simple belief: every Sri Lankan family deserves the same export-grade, boat-fresh seafood that once only reached overseas tables. From our Kirulapone Hub, we deliver the ocean's finest — cleaned, portioned, and cold-packed — straight to your kitchen door.
+              Ocean Fresh Seafoods (Pvt) Ltd. was built on a simple belief: every Sri Lankan family deserves the same export-grade, boat-fresh seafood that once only reached overseas tables. From our Athurugiriya Fulfillment Hub, we deliver the ocean's finest — cleaned, portioned, and cold-packed — straight to your kitchen door.
             </p>
             <div className="pt-2">
               <button
@@ -148,7 +148,7 @@ export const About: React.FC<AboutProps> = ({ onShopClick }) => {
               </div>
               <h3 className="text-base font-bold text-slate-900">Complete Transparency</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                From the fishing vessel to your plate, we document and share every step. You'll always know where your catch was landed, how it was processed, and when it was dispatched from our Kirulapone Hub.
+                From the fishing vessel to your plate, we document and share every step. You'll always know where your catch was landed, how it was processed, and when it was dispatched from our Athurugiriya Hub.
               </p>
             </div>
 

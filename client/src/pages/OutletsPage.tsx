@@ -8,19 +8,19 @@ interface OutletsPageProps {
 
 export const OutletsPage: React.FC<OutletsPageProps> = ({ onSelectAndShop }) => {
   const { selectedOutlet } = useOutlet();
-  const outletName = selectedOutlet?.name || 'Kirulapone Flagship Store & Hub';
-  const outletAddress = selectedOutlet?.address || 'No. 142, High Level Road, Kirulapone, Colombo 5';
-  const outletPhone = selectedOutlet?.phone || '+94 78 479 8095';
-  const outletHours = selectedOutlet?.opening_hours || '7:30 AM - 7:30 PM (Daily Fresh Catch & Delivery)';
+  const outletName = selectedOutlet?.name || 'Athurugiriya Central Fulfillment Hub';
+  const outletAddress = selectedOutlet?.address || '304/A, Godagama Road, Athurugiriya';
+  const outletPhone = selectedOutlet?.phone || '+94 72 342 6084';
+  const outletHours = selectedOutlet?.opening_hours || '8:00 AM - 7:30 PM (Daily Online Orders & Direct Home Delivery)';
   const cleanPhone = outletPhone.replace(/[^0-9]/g, '');
 
   const deliveryZones = [
-    { name: 'Colombo 1 - Colombo 15', timing: 'Same-Day Delivery (Orders before 2 PM)', fee: 'Rs. 350 Flat' },
-    { name: 'Kirulapone, Narahenpita, Havelock', timing: 'Express Within 2 Hours', fee: 'Rs. 250 Flat' },
-    { name: 'Nugegoda, Kohuwala, Dehiwala', timing: 'Same-Day Morning & Evening Slots', fee: 'Rs. 350 Flat' },
-    { name: 'Rajagiriya, Battaramulla, Kotte', timing: 'Daily Chilled Route Dispatch', fee: 'Rs. 350 Flat' },
-    { name: 'Mount Lavinia, Ratmalana, Moratuwa', timing: 'Daily Scheduled Afternoon Route', fee: 'Rs. 400 Flat' },
-    { name: 'Maharagama, Pannipitiya, Kottawa', timing: 'Daily Scheduled Dispatch', fee: 'Rs. 400 Flat' },
+    { name: 'Athurugiriya, Malabe, Hokandara, Kaduwela', timing: 'Local Cold-Chain Dispatch', fee: 'Rs. 450 (FREE over Rs. 15,000)' },
+    { name: 'Kottawa, Maharagama, Pannipitiya, Homagama', timing: 'Cold-Chain Van Route', fee: 'Rs. 450 (FREE over Rs. 15,000)' },
+    { name: 'Battaramulla, Rajagiriya, Pelawatta, Kotte', timing: 'Daily Chilled Dispatch', fee: 'Rs. 450 (FREE over Rs. 15,000)' },
+    { name: 'Colombo 1 - Colombo 15 (Fort, Kollupitiya, etc.)', timing: 'City Direct Route', fee: 'Rs. 450 (FREE over Rs. 15,000)' },
+    { name: 'Nugegoda, Kohuwala, Dehiwala, Wellawatte', timing: 'Scheduled Cold-Chain Route', fee: 'Rs. 450 (FREE over Rs. 15,000)' },
+    { name: 'Mount Lavinia, Ratmalana, Moratuwa', timing: 'South Suburb Route', fee: 'Rs. 450 (FREE over Rs. 15,000)' },
   ];
 
   return (
@@ -29,13 +29,13 @@ export const OutletsPage: React.FC<OutletsPageProps> = ({ onSelectAndShop }) => 
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 px-3 py-1 rounded-full border border-cyan-200">
-            Retail & Central Fulfillment Hub
+            Online Fulfillment & Cold-Chain Hub
           </span>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-3">
             {outletName} & Delivery Areas
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-            All our seafood is processed, portioned, and dispatched directly from our central Kirulapone facility to ensure unbroken sub-zero cold chain integrity.
+            All our seafood is processed, portioned, and dispatched directly from our central Athurugiriya cold-chain warehouse to your doorstep with unbroken sub-zero thermal packaging.
           </p>
         </div>
 
@@ -45,31 +45,32 @@ export const OutletsPage: React.FC<OutletsPageProps> = ({ onSelectAndShop }) => 
           <div className="lg:col-span-6 relative min-h-[320px] bg-slate-900">
             <img
               src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80"
-              alt="Kirulapone Store"
+              alt="Athurugiriya Fulfillment Hub"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 text-white space-y-1">
               <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">Central Hub</span>
               <h2 className="text-2xl font-black">{outletName}</h2>
-              <p className="text-xs text-slate-300">Retail Fishmonger & Daily Dispatch Warehouse</p>
+              <p className="text-xs text-slate-300">Cold-Chain Processing & Dispatch Warehouse (Delivery Only)</p>
             </div>
           </div>
 
           {/* Right: Store Information & Actions */}
           <div className="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-4 text-xs">
-              <div className="flex items-center space-x-2 text-emerald-600 font-bold bg-emerald-50 px-3 py-1 rounded-full w-fit border border-emerald-200">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Open for Walk-in Shopping & Home Delivery</span>
+              <div className="flex items-center space-x-2 text-cyan-700 font-bold bg-cyan-50 px-3 py-1 rounded-full w-fit border border-cyan-200">
+                <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
+                <span>Online Orders & Home Delivery Only (No Walk-in Store)</span>
               </div>
 
               <div className="space-y-3 pt-2 text-slate-600">
                 <div className="flex items-start space-x-3">
                   <MapPin className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 block font-bold">Store Location:</strong>
+                    <strong className="text-slate-900 block font-bold">Fulfillment Hub Address:</strong>
                     <span>{outletAddress}</span>
+                    <span className="text-[11px] text-slate-500 block italic mt-0.5">* Orders are dispatched via courier/rider directly to your doorstep. No walk-in retail counter.</span>
                   </div>
                 </div>
 
@@ -110,7 +111,7 @@ export const OutletsPage: React.FC<OutletsPageProps> = ({ onSelectAndShop }) => 
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <a
-                href="https://wa.me/94784798095?text=Hello%20Ocean%20Fresh%20Seafoods%2C%20I%20would%20like%20to%20inquire%20about%20today%27s%20fresh%20seafood%20availability."
+                href={`https://wa.me/${cleanPhone}?text=Hello%20Ocean%20Fresh%20Seafoods%2C%20I%20would%20like%20to%20inquire%20about%20today%27s%20fresh%20seafood%20availability.`}
                 target="_blank"
                 rel="noreferrer"
                 className="px-5 py-3 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-bold text-xs rounded-xl border border-emerald-200 transition-colors flex items-center justify-center space-x-1.5"

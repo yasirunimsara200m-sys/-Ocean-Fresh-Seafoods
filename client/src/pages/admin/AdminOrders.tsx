@@ -17,8 +17,10 @@ import {
   X,
   User,
   MessageCircle,
-  Banknote
+  Banknote,
+  Printer
 } from 'lucide-react';
+import { InvoiceModal } from '../../components/InvoiceModal';
 
 export const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -27,6 +29,7 @@ export const AdminOrders: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [search, setSearch] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [printOrder, setPrintOrder] = useState<Order | null>(null);
 
   // Manual Order Modal State
   const [manualModalOpen, setManualModalOpen] = useState(false);
@@ -37,8 +40,8 @@ export const AdminOrders: React.FC = () => {
     customer_name: '',
     customer_phone: '',
     customer_email: '',
-    delivery_address: 'Walk-in / Direct Kirulapone Store',
-    delivery_city: 'Kirulapone, Colombo 5',
+    delivery_address: 'Direct Delivery / Phone Order',
+    delivery_city: 'Athurugiriya / Colombo',
     order_source: 'Phone / WhatsApp Direct',
     delivery_date: 'Standard Fast Dispatch',
     delivery_time_slot: 'Direct Cold-Chain',
@@ -171,7 +174,7 @@ export const AdminOrders: React.FC = () => {
         customer_email: manualOrderData.customer_email,
         delivery_address: manualOrderData.delivery_address,
         delivery_city: manualOrderData.delivery_city,
-        outlet_id: 'outlet-kirulapone',
+        outlet_id: 'outlet-athurugiriya',
         delivery_date: manualOrderData.delivery_date,
         delivery_time_slot: manualOrderData.delivery_time_slot,
         payment_method: manualOrderData.payment_method,
@@ -200,7 +203,7 @@ export const AdminOrders: React.FC = () => {
             Customer Orders & Dispatch
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Manage incoming web orders, manual phone orders, and walk-in purchases at Kirulapone.
+            Manage incoming web orders, manual phone orders, and direct delivery dispatches from Athurugiriya Hub.
           </p>
         </div>
 
@@ -391,7 +394,7 @@ export const AdminOrders: React.FC = () => {
                   >
                     <option value="WhatsApp Direct Message">WhatsApp Direct</option>
                     <option value="Phone Call Hotline">Direct Phone Call</option>
-                    <option value="Walk-in Kirulapone Store">Kirulapone Walk-in</option>
+                    <option value="Direct Delivery / Dispatch">Direct Delivery / Dispatch</option>
                     <option value="Social Media (FB/IG)">Facebook / Instagram</option>
                   </select>
                 </div>
@@ -561,7 +564,7 @@ export const AdminOrders: React.FC = () => {
                 <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
                   <span className="text-slate-400">Calculated Total:</span>
                   <span className="text-base font-black text-cyan-400">
-                    Rs. {(manualSubtotal + (manualOrderData.delivery_address.includes('Walk-in') ? 0 : 350)).toLocaleString()}
+                    Rs. {(manualSubtotal + (manualOrderData.delivery_address.includes('Walk-in') ? 0 : (manualSubtotal >= 15000 ? 0 : 450))).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -657,7 +660,7 @@ export const AdminOrders: React.FC = () => {
                 <div className="text-slate-400 font-semibold">Dispatch & Hub</div>
                 <div className="text-white font-bold">{selectedOrder.delivery_date || 'Fast Cold-Chain Dispatch'}</div>
                 <div className="text-slate-400">{selectedOrder.delivery_time_slot || 'Direct Cold-Chain'}</div>
-                <div className="text-cyan-400 font-medium">Hub: Kirulapone Flagship Store</div>
+                <div className="text-cyan-400 font-medium">Hub: Athurugiriya Central Hub</div>
               </div>
             </div>
 
@@ -701,8 +704,29 @@ export const AdminOrders: React.FC = () => {
                 <span className="text-cyan-400">Rs. {selectedOrder.total_amount.toLocaleString()}</span>
               </div>
             </div>
+
+            {/* Action footer */}
+            <div className="pt-4 border-t border-slate-800 flex items-center justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => setPrintOrder(selectedOrder)}
+                className="flex items-center space-x-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-cyan-950/40 cursor-pointer text-xs transition-colors"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Print Dispatch Invoice / Bill</span>
+              </button>
+            </div>
           </div>
         </div>
+      )}
+
+      {/* Invoice Modal for Admin Print */}
+      {printOrder && (
+        <InvoiceModal
+          order={printOrder}
+          onClose={() => setPrintOrder(null)}
+          mode="dispatch"
+        />
       )}
     </div>
   );

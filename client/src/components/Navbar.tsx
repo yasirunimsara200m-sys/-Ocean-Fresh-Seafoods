@@ -50,9 +50,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, onOpe
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const outletPhone = selectedOutlet?.phone || '+94 78 479 8095';
+  const outletPhone = selectedOutlet?.phone || '+94 72 342 6084';
   const cleanPhone = outletPhone.replace(/[^0-9]/g, '');
-  const outletCity = selectedOutlet?.city || 'Kirulapone, Colombo 5';
+  const outletCity = selectedOutlet?.city || 'Athurugiriya';
 
   return (
     <header className="sticky top-0 z-40 w-full shadow-xs">
@@ -63,9 +63,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, onOpe
           <div className="flex items-center min-w-0 gap-3">
             <div className="flex items-center space-x-1.5 font-medium text-cyan-400 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-700/80 shrink-0">
               <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
-              <span className="hidden sm:inline">Flagship Store: <strong>{outletCity}</strong></span>
-              <span className="sm:hidden font-bold text-[11px]">{selectedOutlet?.slug || 'Kirulapone'}</span>
-              <span className="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-1.5 py-0.5 rounded-sm ml-0.5">Open</span>
+              <span className="hidden sm:inline">Dispatch Hub: <strong>{outletCity}</strong> (Online Orders Only)</span>
+              <span className="sm:hidden font-bold text-[11px]">{selectedOutlet?.city || 'Athurugiriya'}</span>
+              <span className="text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1.5 py-0.5 rounded-sm ml-0.5">Delivery Only</span>
             </div>
 
             <div className="hidden sm:flex items-center space-x-3 text-slate-300">
@@ -90,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, onOpe
           <div className="flex items-center space-x-2 shrink-0">
             <div className="hidden md:flex items-center space-x-1.5 text-emerald-400 text-[11px]">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span className="font-semibold">Cash on Delivery • WhatsApp Orders Welcomed</span>
+              <span className="font-semibold">Colombo Delivery • FREE over Rs. 15,000 • Cash on Delivery</span>
             </div>
 
             <div className="flex items-center space-x-2 text-[11px]">
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, onOpe
                     </span>
                   </div>
                   <p className="hidden sm:block text-[11px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
-                    Ocean Fresh Seafoods • Kirulapone
+                    Ocean Fresh Seafoods • Online Delivery Hub
                   </p>
                 </div>
               </button>
@@ -306,7 +306,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, onOpe
             <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
               <span className="flex items-center space-x-1 text-emerald-600 font-semibold">
                 <MessageCircle className="w-4 h-4" />
-                <a href="https://wa.me/94784798095" target="_blank" rel="noreferrer">WhatsApp: +94 78 479 8095</a>
+                <a href="https://wa.me/94723426084" target="_blank" rel="noreferrer">WhatsApp: +94 72 342 6084</a>
               </span>
             </div>
           </div>

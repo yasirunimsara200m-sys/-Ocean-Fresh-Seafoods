@@ -137,7 +137,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
             {product.variants && product.variants.length > 0 && (
               <div className="mt-6">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2.5">
-                  Select Cut & Portion Size:
+                  {product.category_id === 'cat-prawns'
+                    ? 'Select Prawn Size (1 KG):'
+                    : product.category_id === 'cat-squid'
+                    ? 'Select Squid Grade / Size (1 KG):'
+                    : product.category_id === 'cat-dumplings'
+                    ? 'Select Dumpling Filling:'
+                    : 'Select Portion & Cut:'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {product.variants.map((v) => {
