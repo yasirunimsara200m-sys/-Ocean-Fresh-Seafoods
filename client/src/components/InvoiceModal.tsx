@@ -29,12 +29,12 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ order, onClose, mode
 
   return (
     <>
-      {/* Modal overlay — hidden on print */}
+      {/* ── MODAL OVERLAY (Only visible on screen, completely hidden during print) ── */}
       <div className="no-print fixed inset-0 z-[100] overflow-y-auto flex items-start justify-center p-4 sm:p-8 bg-slate-950/80 backdrop-blur-sm">
         {/* Backdrop click to close */}
         <div className="fixed inset-0" onClick={onClose} />
 
-        <div className="relative z-10 bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden">
+        <div className="relative z-10 bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden my-auto">
           {/* Modal action bar */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
             <div>
@@ -45,6 +45,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ order, onClose, mode
             </div>
             <div className="flex items-center space-x-2">
               <button
+                type="button"
                 onClick={handlePrint}
                 className="flex items-center space-x-2 bg-cyan-700 hover:bg-cyan-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition-all cursor-pointer"
               >
@@ -52,6 +53,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ order, onClose, mode
                 <span>{mode === 'dispatch' ? 'Print Dispatch Copy' : 'Print / Save as PDF'}</span>
               </button>
               <button
+                type="button"
                 onClick={onClose}
                 className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer"
               >
@@ -60,14 +62,35 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ order, onClose, mode
             </div>
           </div>
 
-          {/* Scrollable invoice preview */}
-          <div className="max-h-[75vh] overflow-y-auto p-4 bg-slate-100">
-            {/* The actual printable invoice */}
-            <div
-              id="printable-invoice"
-              style={{ fontFamily: 'Georgia, serif' }}
-              className="bg-white p-8 rounded-2xl shadow-sm text-slate-900"
-            >
+          {/* Screen preview container */}
+          <div className="max-h-[75vh] overflow-y-auto p-4 bg-slate-100 flex justify-center">
+            <div className="w-full">
+              <InvoiceContent order={order} mode={mode} invoiceDate={invoiceDate} statusLabel={statusLabel} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── PRINT-ONLY ELEMENT (Mounted directly at document root level for clean browser print) ── */}
+      <div id="print-mount" className="print-only">
+        <InvoiceContent order={order} mode={mode} invoiceDate={invoiceDate} statusLabel={statusLabel} />
+      </div>
+    </>
+  );
+};
+
+// Extracted invoice content component
+const InvoiceContent: React.FC<{
+  order: Order;
+  mode: 'customer' | 'dispatch';
+  invoiceDate: string;
+  statusLabel: Record<string, string>;
+}> = ({ order, mode, invoiceDate, statusLabel }) => {
+  return (
+    <div
+      style={{ fontFamily: 'Georgia, serif' }}
+      className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm text-slate-900 w-full"
+    >
               {/* ── Letterhead ── */}
               <div className="flex items-start justify-between pb-6 border-b-2 border-cyan-700">
                 <div>
@@ -221,9 +244,5 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ order, onClose, mode
                 )}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
   );
 };

@@ -59,34 +59,50 @@
   -webkit-backdrop-filter: blur(16px);
 }
 
+/* Screen vs Print utility */
+.print-only {
+  display: none;
+}
+
 /* Print Styles for Official Invoice */
 @media print {
-  body {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  /* Hide everything on the website by default when printing */
+  html, body {
     background: #ffffff !important;
     color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
   }
-  .no-print {
+
+  /* Hide UI elements, navbar, footer, modals, backdrop */
+  .no-print,
+  header,
+  footer,
+  nav {
     display: none !important;
   }
-  body * {
-    visibility: hidden;
-  }
-  #printable-invoice, #printable-invoice * {
-    visibility: visible;
-  }
-  #printable-invoice {
-    position: absolute;
-    left: 0;
-    top: 0;
+
+  /* Display the print-only invoice cleanly at full page width */
+  .print-only {
+    display: block !important;
+    position: static !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 16px !important;
+    padding: 0 !important;
     background: #ffffff !important;
     color: #0f172a !important;
-    box-shadow: none !important;
-    border: none !important;
-    z-index: 999999 !important;
+  }
+
+  .print-only * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 
