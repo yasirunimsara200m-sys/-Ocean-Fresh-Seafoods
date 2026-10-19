@@ -12,7 +12,6 @@ import {
   X,
   KeyRound
 } from 'lucide-react';
-import { ScrollToTop } from '../../components/ScrollToTop';
 import { AdminSettingsModal } from '../../components/admin/AdminSettingsModal';
 
 interface AdminLayoutProps {
@@ -45,48 +44,69 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row">
-      {/* Mobile Header */}
-      <div className="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex items-center justify-between">
+    <div className="h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row overflow-hidden">
+      {/* Mobile Header (Fixed at top on small screens) */}
+      <div className="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex items-center justify-between shrink-0 z-30">
         <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white">
+          <div className="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white shadow-md">
             <Sparkles className="w-4 h-4" />
           </div>
-          <span className="font-bold text-sm">Ocean Fresh Admin</span>
+          <span className="font-bold text-sm tracking-tight text-white">Ocean Fresh Admin</span>
         </div>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setSettingsOpen(true)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 transition-colors"
             title="Account Security & Password"
           >
             <KeyRound className="w-5 h-5" />
           </button>
           <button
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white transition-colors"
           >
             {mobileNavOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Sidebar Navigation */}
-      <aside className={`w-64 bg-slate-950 border-r border-slate-800 p-5 flex flex-col justify-between shrink-0 ${
-        mobileNavOpen ? 'block' : 'hidden md:flex'
-      }`}>
+      {/* Mobile Drawer Backdrop */}
+      {mobileNavOpen && (
+        <div
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-40 md:hidden animate-fade-in"
+          onClick={() => setMobileNavOpen(false)}
+        />
+      )}
+
+      {/* Fixed Sticky Sidebar Navigation */}
+      <aside
+        className={`bg-slate-950 border-r border-slate-800 p-5 flex flex-col justify-between shrink-0 z-50 ${
+          mobileNavOpen
+            ? 'fixed inset-y-0 left-0 w-72 h-full overflow-y-auto shadow-2xl flex animate-in slide-in-from-left duration-200'
+            : 'hidden md:flex md:w-64 md:h-full md:overflow-y-auto'
+        }`}
+      >
         <div className="space-y-6">
           {/* Logo & Info */}
-          <div className="flex items-center space-x-3 px-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-700 flex items-center justify-center text-white shadow-md">
-              <Sparkles className="w-5 h-5 text-cyan-200" />
-            </div>
-            <div>
-              <div className="text-sm font-black tracking-tight text-white font-sans">
-                OCEAN <span className="text-cyan-400">FRESH</span>
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-700 flex items-center justify-center text-white shadow-md shrink-0">
+                <Sparkles className="w-5 h-5 text-cyan-200" />
               </div>
-              <p className="text-[10px] text-slate-400 font-medium">Ocean Fresh Seafoods (Pvt) Ltd.</p>
+              <div>
+                <div className="text-sm font-black tracking-tight text-white font-sans">
+                  OCEAN <span className="text-cyan-400">FRESH</span>
+                </div>
+                <p className="text-[10px] text-slate-400 font-medium">Ocean Fresh Seafoods (Pvt) Ltd.</p>
+              </div>
             </div>
+            {/* Close button inside mobile drawer */}
+            <button
+              onClick={() => setMobileNavOpen(false)}
+              className="md:hidden p-1 rounded-lg text-slate-400 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Nav items list */}
@@ -103,11 +123,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                   }}
                   className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/30'
+                      ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/30 font-bold'
                       : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-4 h-4 shrink-0" />
                   <span>{item.label}</span>
                 </button>
               );
@@ -115,8 +135,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </nav>
         </div>
 
-        {/* User profile & actions */}
-        <div className="space-y-3 pt-6 border-t border-slate-800/80">
+        {/* User profile & actions (Always pinned at sidebar bottom) */}
+        <div className="space-y-3 pt-6 border-t border-slate-800/80 mt-6">
           <button
             onClick={onViewStore}
             className="w-full flex items-center justify-center space-x-1.5 py-2 px-3 bg-slate-900 hover:bg-slate-800 text-cyan-400 text-xs font-semibold rounded-xl border border-slate-700/60 transition-all cursor-pointer"
@@ -127,7 +147,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
           {/* Change Username / Password Button */}
           <button
-            onClick={() => setSettingsOpen(true)}
+            onClick={() => {
+              setSettingsOpen(true);
+              setMobileNavOpen(false);
+            }}
             className="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-colors cursor-pointer text-xs"
             title="Change Username or Password"
           >
@@ -142,12 +165,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
           <div className="flex items-center justify-between px-2 pt-1 text-xs">
             <div>
-              <div className="font-bold text-slate-200">{currentUser?.name || 'Administrator'}</div>
+              <div className="font-bold text-slate-200 truncate max-w-[130px]">{currentUser?.name || 'Administrator'}</div>
               <div className="text-[10px] text-slate-500 capitalize">{currentUser?.role || 'Super Admin'}</div>
             </div>
             <button
               onClick={onLogout}
-              className="p-2 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+              className="p-2 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer rounded-lg hover:bg-slate-900"
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />
@@ -156,9 +179,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         </div>
       </aside>
 
-      {/* Main Content View */}
-      <main className="flex-1 bg-slate-900 overflow-y-auto min-h-screen p-4 sm:p-8">
-        {children}
+      {/* Main Scrollable Content Area */}
+      <main className="flex-1 bg-slate-900 overflow-y-auto h-full p-4 sm:p-8">
+        <div className="max-w-7xl mx-auto space-y-8">
+          {children}
+        </div>
       </main>
 
       {/* Security & Password Modal */}
@@ -168,8 +193,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         adminUser={currentUser}
         onProfileUpdated={(updated) => setCurrentUser(updated)}
       />
-
-      <ScrollToTop />
     </div>
   );
 };
