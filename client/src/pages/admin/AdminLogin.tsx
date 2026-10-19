@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../../services/api';
-import { ShieldCheck, Lock, User, Sparkles, ArrowRight, AlertCircle } from 'lucide-react';
+import { Lock, User, Sparkles, ArrowRight, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 interface AdminLoginProps {
   onLoginSuccess: (admin: any) => void;
@@ -8,8 +8,9 @@ interface AdminLoginProps {
 }
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackToStore }) => {
-  const [username, setUsername] = useState(' ');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -19,8 +20,9 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackTo
     setError('');
 
     try {
-      const data = await api.adminLogin(username, password);
+      const data = await api.adminLogin(username.trim(), password);
       localStorage.setItem('tsg_admin_token', data.token);
+      localStorage.setItem('tsg_admin_user', JSON.stringify(data.admin));
       onLoginSuccess(data.admin);
     } catch (err: any) {
       setError(err.message || 'Invalid username or password');
@@ -56,6 +58,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackTo
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Username */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">Username</label>
               <div className="relative">
@@ -63,49 +66,52 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onBackTo
                 <input
                   type="text"
                   required
+                  autoComplete="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
+                  placeholder="Enter username"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors"
                 />
               </div>
             </div>
 
+            {/* Password with show/hide toggle */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
+                  placeholder="Enter password"
+                  className="w-full pl-10 pr-11 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-cyan-400 transition-colors cursor-pointer"
+                  tabIndex={-1}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-cyan-900/20 transition-all cursor-pointer flex items-center justify-center space-x-2"
+              className="w-full py-3 px-4 bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-cyan-900/20 transition-all cursor-pointer flex items-center justify-center space-x-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span>{loading ? 'Authenticating...' : 'Sign In to Dashboard'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
-          {/* Preset Helper */}
-          <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 text-[11px] text-slate-400 space-y-1">
-            <div className="font-semibold text-slate-300 flex items-center space-x-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Default Initial Credentials:</span>
-            </div>
-            <div className="font-mono text-cyan-300">
-              User: <span className="text-white">admin</span> | Pass: <span className="text-white">admin123</span>
-            </div>
-          </div>
-
-          <div className="text-center pt-2">
+          <div className="text-center pt-1">
             <button
               onClick={onBackToStore}
               className="text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
