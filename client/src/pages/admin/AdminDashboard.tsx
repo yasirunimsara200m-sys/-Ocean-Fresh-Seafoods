@@ -135,6 +135,58 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigateTab })
         })}
       </div>
 
+      {/* Low Stock Warning Banner if any products <= 5 */}
+      {stats.lowStockCount > 0 && (
+        <div className="bg-amber-950/60 border border-amber-500/40 rounded-3xl p-5 shadow-xl space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-amber-200">
+                  Critical Inventory Alert: {stats.lowStockCount} Product{stats.lowStockCount > 1 ? 's' : ''} Low on Stock / Out of Stock
+                </h3>
+                <p className="text-xs text-amber-300/80">
+                  Customer orders may be blocked for items running below 5 units. Please restock immediately.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => onNavigateTab('products')}
+              className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl transition-all cursor-pointer shrink-0 shadow-md shadow-amber-950/40 flex items-center justify-center space-x-1.5"
+            >
+              <span>Manage & Restock Products</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Quick chip display of low stock products */}
+          {stats.lowStockProducts && stats.lowStockProducts.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-2 border-t border-amber-500/20">
+              {stats.lowStockProducts.map((p) => (
+                <div
+                  key={p.id}
+                  className="bg-slate-900/80 border border-slate-800 rounded-xl p-2.5 flex items-center space-x-2.5"
+                >
+                  <img src={p.image_url} alt="" className="w-9 h-9 rounded-lg object-cover border border-slate-700 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-bold text-slate-200 truncate">{p.name}</div>
+                    <div className="text-[10px] flex items-center space-x-1.5 mt-0.5">
+                      <span className={`font-black ${p.stock_quantity === 0 ? 'text-rose-400' : 'text-amber-400'}`}>
+                        {p.stock_quantity === 0 ? 'OUT OF STOCK' : `Only ${p.stock_quantity} left`}
+                      </span>
+                      <span className="text-slate-500">({p.unit})</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Grid: Recent Orders & Outlet Revenue */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Recent Orders (8 cols) */}

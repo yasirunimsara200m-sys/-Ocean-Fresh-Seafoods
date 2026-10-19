@@ -253,4 +253,25 @@ export const api = {
     if (!res.ok) throw new Error('Failed to fetch admin stats');
     return res.json();
   },
+
+  async updateAdminProfile(data: {
+    current_password: string;
+    new_username?: string;
+    new_password?: string;
+    new_name?: string;
+  }): Promise<{ message: string; token: string; admin: any }> {
+    const res = await fetch(`${API_BASE}/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Failed to update credentials');
+    }
+    return res.json();
+  },
 };

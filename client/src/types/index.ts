@@ -120,6 +120,15 @@ export interface AdminStats {
   pendingOrders: number;
   totalProducts: number;
   lowStockCount: number;
+  lowStockProducts?: {
+    id: string;
+    name: string;
+    unit: string;
+    base_price: number;
+    stock_quantity: number;
+    in_stock: boolean | number;
+    image_url: string;
+  }[];
   unreadMessages: number;
   ordersByStatus: { order_status: string; count: number }[];
   revenueByOutlet: { outlet_name: string; revenue: number; orders_count: number }[];

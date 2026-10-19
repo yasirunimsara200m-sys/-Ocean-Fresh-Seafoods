@@ -20,7 +20,7 @@ export const Shop: React.FC<ShopProps> = ({
   const { selectedOutlet } = useOutlet();
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState('');
-  const [priceRange, setPriceRange] = useState<number>(10000);
+  const [priceRange, setPriceRange] = useState<number>(25000);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState<string>('popularity');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -67,7 +67,7 @@ export const Shop: React.FC<ShopProps> = ({
   const resetFilters = () => {
     setSelectedCategory('all');
     setSearchQuery('');
-    setPriceRange(10000);
+    setPriceRange(25000);
     setInStockOnly(false);
     setSortBy('popularity');
   };
@@ -158,16 +158,16 @@ export const Shop: React.FC<ShopProps> = ({
                 </div>
                 <input
                   type="range"
-                  min={1000}
-                  max={10000}
-                  step={250}
+                  min={500}
+                  max={25000}
+                  step={500}
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
                   className="w-full accent-cyan-600 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
-                  <span>Rs. 1,000</span>
-                  <span>Rs. 10,000</span>
+                  <span>Rs. 500</span>
+                  <span>Rs. 25,000</span>
                 </div>
               </div>
 

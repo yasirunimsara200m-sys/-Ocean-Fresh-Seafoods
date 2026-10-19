@@ -6,21 +6,29 @@ import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 
 // GET /api/outlets
-router.get('/', (req, res) => {
-  const outlets = db.prepare('SELECT * FROM outlets ORDER BY name ASC').all();
-  res.json({ outlets });
+router.get('/', async (req, res) => {
+  try {
+    const outlets = await db.prepare('SELECT * FROM outlets ORDER BY name ASC').all();
+    res.json({ outlets });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // GET /api/outlets/:slugOrId
-router.get('/:slugOrId', (req, res) => {
-  const { slugOrId } = req.params;
-  const outlet = db.prepare('SELECT * FROM outlets WHERE id = ? OR slug = ?').get(slugOrId, slugOrId);
-  if (!outlet) return res.status(404).json({ error: 'Outlet not found' });
-  res.json({ outlet });
+router.get('/:slugOrId', async (req, res) => {
+  try {
+    const { slugOrId } = req.params;
+    const outlet = await db.prepare('SELECT * FROM outlets WHERE id = ? OR slug = ?').get(slugOrId, slugOrId);
+    if (!outlet) return res.status(404).json({ error: 'Outlet not found' });
+    res.json({ outlet });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Admin: POST /api/outlets
-router.post('/', requireAdmin, (req, res) => {
+router.post('/', requireAdmin, async (req, res) => {
   const { name, city, address, phone, email, opening_hours, is_active } = req.body;
   if (!name || !city || !address || !phone) {
     return res.status(400).json({ error: 'Name, city, address, and phone are required' });
@@ -30,12 +38,12 @@ router.post('/', requireAdmin, (req, res) => {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
   try {
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO outlets (id, name, slug, city, address, phone, email, opening_hours, is_active)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(id, name, slug, city, address, phone, email || '', opening_hours || '', is_active !== undefined ? (is_active ? 1 : 0) : 1);
 
-    const created = db.prepare('SELECT * FROM outlets WHERE id = ?').get(id);
+    const created = await db.prepare('SELECT * FROM outlets WHERE id = ?').get(id);
     res.status(201).json({ outlet: created });
   } catch (err: any) {
     res.status(400).json({ error: err.message });
@@ -43,12 +51,12 @@ router.post('/', requireAdmin, (req, res) => {
 });
 
 // Admin: PUT /api/outlets/:id
-router.put('/:id', requireAdmin, (req, res) => {
+router.put('/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
   const { name, city, address, phone, email, opening_hours, is_active } = req.body;
 
   try {
-    db.prepare(`
+    await db.prepare(`
       UPDATE outlets SET
         name = COALESCE(?, name),
         city = COALESCE(?, city),
@@ -60,7 +68,7 @@ router.put('/:id', requireAdmin, (req, res) => {
       WHERE id = ?
     `).run(name, city, address, phone, email, opening_hours, is_active !== undefined ? (is_active ? 1 : 0) : null, id);
 
-    const updated = db.prepare('SELECT * FROM outlets WHERE id = ?').get(id);
+    const updated = await db.prepare('SELECT * FROM outlets WHERE id = ?').get(id);
     res.json({ outlet: updated });
   } catch (err: any) {
     res.status(400).json({ error: err.message });

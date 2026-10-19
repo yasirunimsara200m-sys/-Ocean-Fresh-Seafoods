@@ -11,112 +11,125 @@ function formatProduct(p: any) {
   let gallery = [];
   let variants = [];
   try {
-    gallery = JSON.parse(p.gallery_json || '[]');
+    gallery = typeof p.gallery_json === 'string' ? JSON.parse(p.gallery_json || '[]') : (p.gallery_json || []);
   } catch (e) {
     gallery = [];
   }
   try {
-    variants = JSON.parse(p.variants_json || '[]');
+    variants = typeof p.variants_json === 'string' ? JSON.parse(p.variants_json || '[]') : (p.variants_json || []);
   } catch (e) {
     variants = [];
   }
   return {
     ...p,
-    in_stock: Boolean(p.in_stock),
-    is_featured: Boolean(p.is_featured),
-    is_best_seller: Boolean(p.is_best_seller),
+    base_price: Number(p.base_price),
+    original_price: p.original_price != null ? Number(p.original_price) : null,
+    stock_quantity: Number(p.stock_quantity ?? 50),
+    in_stock: Boolean(Number(p.in_stock) === 1),
+    is_featured: Boolean(Number(p.is_featured) === 1),
+    is_best_seller: Boolean(Number(p.is_best_seller) === 1),
     gallery,
     variants
   };
 }
 
 // GET /api/products
-router.get('/', (req, res) => {
-  const { category, outlet, search, minPrice, maxPrice, inStock, featured, bestSeller, sort } = req.query;
+router.get('/', async (req, res) => {
+  try {
+    const { category, outlet, search, minPrice, maxPrice, inStock, featured, bestSeller, sort } = req.query;
 
-  let query = `
-    SELECT p.*, c.name as category_name, c.slug as category_slug
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE 1=1
-  `;
-  const params: any[] = [];
+    let query = `
+      SELECT p.*, c.name as category_name, c.slug as category_slug
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE 1=1
+    `;
+    const params: any[] = [];
 
-  if (category && category !== 'all') {
-    query += ` AND (c.slug = ? OR c.id = ?)`;
-    params.push(category, category);
+    if (category && category !== 'all') {
+      query += ` AND (c.slug = ? OR c.id = ?)`;
+      params.push(category, category);
+    }
+
+    if (outlet && outlet !== 'all') {
+      query += ` AND (p.outlet_id = ? OR p.outlet_id IS NULL)`;
+      params.push(outlet);
+    }
+
+    if (search) {
+      query += ` AND (p.name ILIKE ? OR p.description ILIKE ? OR p.short_description ILIKE ?)`;
+      const s = `%${search}%`;
+      params.push(s, s, s);
+    }
+
+    if (minPrice) {
+      query += ` AND p.base_price >= ?`;
+      params.push(Number(minPrice));
+    }
+
+    if (maxPrice) {
+      query += ` AND p.base_price <= ?`;
+      params.push(Number(maxPrice));
+    }
+
+    if (inStock === 'true') {
+      query += ` AND p.in_stock = 1`;
+    }
+
+    if (featured === 'true') {
+      query += ` AND p.is_featured = 1`;
+    }
+
+    if (bestSeller === 'true') {
+      query += ` AND p.is_best_seller = 1`;
+    }
+
+    // Sorting
+    if (sort === 'price-asc') {
+      query += ` ORDER BY p.base_price ASC`;
+    } else if (sort === 'price-desc') {
+      query += ` ORDER BY p.base_price DESC`;
+    } else if (sort === 'name-asc') {
+      query += ` ORDER BY p.name ASC`;
+    } else if (sort === 'rating' || sort === 'popularity') {
+      query += ` ORDER BY p.is_best_seller DESC, p.is_featured DESC, p.created_at DESC`;
+    } else {
+      query += ` ORDER BY p.created_at DESC`;
+    }
+
+    const rows = await db.prepare(query).all(...params);
+    const formatted = rows.map(formatProduct);
+    res.json({ products: formatted, count: formatted.length });
+  } catch (err: any) {
+    console.error('Error fetching products:', err);
+    res.status(500).json({ error: err.message || 'Failed to fetch products' });
   }
-
-  if (outlet && outlet !== 'all') {
-    query += ` AND (p.outlet_id = ? OR p.outlet_id IS NULL)`;
-    params.push(outlet);
-  }
-
-  if (search) {
-    query += ` AND (p.name LIKE ? OR p.description LIKE ? OR p.short_description LIKE ?)`;
-    const s = `%${search}%`;
-    params.push(s, s, s);
-  }
-
-  if (minPrice) {
-    query += ` AND p.base_price >= ?`;
-    params.push(Number(minPrice));
-  }
-
-  if (maxPrice) {
-    query += ` AND p.base_price <= ?`;
-    params.push(Number(maxPrice));
-  }
-
-  if (inStock === 'true') {
-    query += ` AND p.in_stock = 1`;
-  }
-
-  if (featured === 'true') {
-    query += ` AND p.is_featured = 1`;
-  }
-
-  if (bestSeller === 'true') {
-    query += ` AND p.is_best_seller = 1`;
-  }
-
-  // Sorting
-  if (sort === 'price-asc') {
-    query += ` ORDER BY p.base_price ASC`;
-  } else if (sort === 'price-desc') {
-    query += ` ORDER BY p.base_price DESC`;
-  } else if (sort === 'name-asc') {
-    query += ` ORDER BY p.name ASC`;
-  } else if (sort === 'rating' || sort === 'popularity') {
-    query += ` ORDER BY p.is_best_seller DESC, p.is_featured DESC, p.created_at DESC`;
-  } else {
-    query += ` ORDER BY p.created_at DESC`;
-  }
-
-  const rows = db.prepare(query).all(...params);
-  const formatted = rows.map(formatProduct);
-  res.json({ products: formatted, count: formatted.length });
 });
 
 // GET /api/products/:idOrSlug
-router.get('/:idOrSlug', (req, res) => {
-  const { idOrSlug } = req.params;
-  const product = db.prepare(`
-    SELECT p.*, c.name as category_name, c.slug as category_slug
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.id = ? OR p.slug = ?
-  `).get(idOrSlug, idOrSlug);
+router.get('/:idOrSlug', async (req, res) => {
+  try {
+    const { idOrSlug } = req.params;
+    const product = await db.prepare(`
+      SELECT p.*, c.name as category_name, c.slug as category_slug
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE p.id = ? OR p.slug = ?
+    `).get(idOrSlug, idOrSlug);
 
-  if (!product) {
-    return res.status(404).json({ error: 'Product not found' });
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    res.json({ product: formatProduct(product) });
+  } catch (err: any) {
+    console.error('Error fetching product:', err);
+    res.status(500).json({ error: err.message });
   }
-
-  res.json({ product: formatProduct(product) });
 });
 
 // Admin: POST /api/products
-router.post('/', requireAdmin, (req, res) => {
+router.post('/', requireAdmin, async (req, res) => {
   try {
     const {
       name,
@@ -145,7 +158,7 @@ router.post('/', requireAdmin, (req, res) => {
     const baseSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     let slug = baseSlug;
     let counter = 1;
-    while (db.prepare('SELECT id FROM products WHERE slug = ?').get(slug)) {
+    while (await db.prepare('SELECT id FROM products WHERE slug = ?').get(slug)) {
       slug = `${baseSlug}-${counter++}`;
     }
 
@@ -163,7 +176,7 @@ router.post('/', requireAdmin, (req, res) => {
       )
     `);
 
-    stmt.run(
+    await stmt.run(
       id,
       name,
       slug,
@@ -184,7 +197,7 @@ router.post('/', requireAdmin, (req, res) => {
       JSON.stringify(variants || [])
     );
 
-    const created = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
+    const created = await db.prepare('SELECT * FROM products WHERE id = ?').get(id);
     res.status(201).json({ product: formatProduct(created), message: 'Product created successfully' });
   } catch (error: any) {
     console.error('Error creating product:', error);
@@ -193,10 +206,10 @@ router.post('/', requireAdmin, (req, res) => {
 });
 
 // Admin: PUT /api/products/:id
-router.put('/:id', requireAdmin, (req, res) => {
+router.put('/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const existing = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
+    const existing = await db.prepare('SELECT * FROM products WHERE id = ?').get(id);
     if (!existing) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -241,7 +254,7 @@ router.put('/:id', requireAdmin, (req, res) => {
       WHERE id = ?
     `);
 
-    stmt.run(
+    await stmt.run(
       name,
       category_id,
       outlet_id || null,
@@ -261,7 +274,7 @@ router.put('/:id', requireAdmin, (req, res) => {
       id
     );
 
-    const updated = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
+    const updated = await db.prepare('SELECT * FROM products WHERE id = ?').get(id);
     res.json({ product: formatProduct(updated), message: 'Product updated successfully' });
   } catch (error: any) {
     console.error('Error updating product:', error);
@@ -270,13 +283,17 @@ router.put('/:id', requireAdmin, (req, res) => {
 });
 
 // Admin: DELETE /api/products/:id
-router.delete('/:id', requireAdmin, (req, res) => {
-  const { id } = req.params;
-  const result = db.prepare('DELETE FROM products WHERE id = ?').run(id);
-  if (result.changes === 0) {
-    return res.status(404).json({ error: 'Product not found' });
+router.delete('/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.prepare('DELETE FROM products WHERE id = ?').run(id);
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    res.json({ message: 'Product deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
-  res.json({ message: 'Product deleted successfully' });
 });
 
 export default router;

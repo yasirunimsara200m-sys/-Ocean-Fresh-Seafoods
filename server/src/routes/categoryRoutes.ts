@@ -6,19 +6,30 @@ import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 
 // GET /api/categories
-router.get('/', (req, res) => {
-  const categories = db.prepare(`
-    SELECT c.*, COUNT(p.id) as product_count
-    FROM categories c
-    LEFT JOIN products p ON c.id = p.category_id
-    GROUP BY c.id
-    ORDER BY c.display_order ASC, c.name ASC
-  `).all();
-  res.json({ categories });
+router.get('/', async (req, res) => {
+  try {
+    const categories = await db.prepare(`
+      SELECT c.*, COUNT(p.id) as product_count
+      FROM categories c
+      LEFT JOIN products p ON c.id = p.category_id
+      GROUP BY c.id
+      ORDER BY c.display_order ASC, c.name ASC
+    `).all();
+
+    const formatted = categories.map((c: any) => ({
+      ...c,
+      product_count: Number(c.product_count || 0)
+    }));
+
+    res.json({ categories: formatted });
+  } catch (err: any) {
+    console.error('Error fetching categories:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Admin: POST /api/categories
-router.post('/', requireAdmin, (req, res) => {
+router.post('/', requireAdmin, async (req, res) => {
   const { name, description, image_url, display_order } = req.body;
   if (!name) return res.status(400).json({ error: 'Category name is required' });
 
@@ -26,12 +37,12 @@ router.post('/', requireAdmin, (req, res) => {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
   try {
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO categories (id, name, slug, description, image_url, display_order)
       VALUES (?, ?, ?, ?, ?, ?)
     `).run(id, name, slug, description || '', image_url || '', display_order || 0);
 
-    const created = db.prepare('SELECT * FROM categories WHERE id = ?').get(id);
+    const created = await db.prepare('SELECT * FROM categories WHERE id = ?').get(id);
     res.status(201).json({ category: created });
   } catch (err: any) {
     res.status(400).json({ error: err.message });
@@ -39,12 +50,12 @@ router.post('/', requireAdmin, (req, res) => {
 });
 
 // Admin: PUT /api/categories/:id
-router.put('/:id', requireAdmin, (req, res) => {
+router.put('/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
   const { name, description, image_url, display_order } = req.body;
 
   try {
-    db.prepare(`
+    await db.prepare(`
       UPDATE categories SET
         name = COALESCE(?, name),
         description = COALESCE(?, description),
@@ -53,7 +64,7 @@ router.put('/:id', requireAdmin, (req, res) => {
       WHERE id = ?
     `).run(name, description, image_url, display_order, id);
 
-    const updated = db.prepare('SELECT * FROM categories WHERE id = ?').get(id);
+    const updated = await db.prepare('SELECT * FROM categories WHERE id = ?').get(id);
     res.json({ category: updated });
   } catch (err: any) {
     res.status(400).json({ error: err.message });
@@ -61,11 +72,15 @@ router.put('/:id', requireAdmin, (req, res) => {
 });
 
 // Admin: DELETE /api/categories/:id
-router.delete('/:id', requireAdmin, (req, res) => {
-  const { id } = req.params;
-  const result = db.prepare('DELETE FROM categories WHERE id = ?').run(id);
-  if (result.changes === 0) return res.status(404).json({ error: 'Category not found' });
-  res.json({ message: 'Category deleted successfully' });
+router.delete('/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.prepare('DELETE FROM categories WHERE id = ?').run(id);
+    if (result.changes === 0) return res.status(404).json({ error: 'Category not found' });
+    res.json({ message: 'Category deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 export default router;

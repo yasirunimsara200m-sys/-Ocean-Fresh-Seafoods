@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   LayoutDashboard,
   Package,
@@ -8,11 +8,12 @@ import {
   LogOut,
   ExternalLink,
   Sparkles,
-  MapPin,
   Menu,
-  X
+  X,
+  KeyRound
 } from 'lucide-react';
 import { ScrollToTop } from '../../components/ScrollToTop';
+import { AdminSettingsModal } from '../../components/admin/AdminSettingsModal';
 
 interface AdminLayoutProps {
   currentAdminTab: string;
@@ -31,7 +32,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   onViewStore,
   children,
 }) => {
-  const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(adminUser);
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -51,12 +54,21 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </div>
           <span className="font-bold text-sm">Ocean Fresh Admin</span>
         </div>
-        <button
-          onClick={() => setMobileNavOpen(!mobileNavOpen)}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-white"
-        >
-          {mobileNavOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400"
+            title="Account Security & Password"
+          >
+            <KeyRound className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white"
+          >
+            {mobileNavOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Sidebar Navigation */}
@@ -113,10 +125,25 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <ExternalLink className="w-3.5 h-3.5" />
           </button>
 
-          <div className="flex items-center justify-between px-2 pt-2 text-xs">
+          {/* Change Username / Password Button */}
+          <button
+            onClick={() => setSettingsOpen(true)}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-colors cursor-pointer text-xs"
+            title="Change Username or Password"
+          >
+            <div className="flex items-center space-x-2">
+              <KeyRound className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="font-semibold">Security Settings</span>
+            </div>
+            <span className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md font-mono">
+              @{currentUser?.username || 'admin'}
+            </span>
+          </button>
+
+          <div className="flex items-center justify-between px-2 pt-1 text-xs">
             <div>
-              <div className="font-bold text-slate-200">{adminUser?.name || 'Administrator'}</div>
-              <div className="text-[10px] text-slate-500 capitalize">{adminUser?.role || 'Super Admin'}</div>
+              <div className="font-bold text-slate-200">{currentUser?.name || 'Administrator'}</div>
+              <div className="text-[10px] text-slate-500 capitalize">{currentUser?.role || 'Super Admin'}</div>
             </div>
             <button
               onClick={onLogout}
@@ -133,6 +160,14 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       <main className="flex-1 bg-slate-900 overflow-y-auto min-h-screen p-4 sm:p-8">
         {children}
       </main>
+
+      {/* Security & Password Modal */}
+      <AdminSettingsModal
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        adminUser={currentUser}
+        onProfileUpdated={(updated) => setCurrentUser(updated)}
+      />
 
       <ScrollToTop />
     </div>

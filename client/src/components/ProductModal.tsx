@@ -143,6 +143,8 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
                     ? 'Select Squid Grade / Size (1 KG):'
                     : product.category_id === 'cat-dumplings'
                     ? 'Select Dumpling Filling:'
+                    : product.category_id === 'cat-crabs'
+                    ? 'Select Crab Size / Grade:'
                     : 'Select Portion & Cut:'}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
