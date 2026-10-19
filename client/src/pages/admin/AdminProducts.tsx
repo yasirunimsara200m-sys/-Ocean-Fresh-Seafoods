@@ -283,13 +283,26 @@ export const AdminProducts: React.FC = () => {
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        p.in_stock
-                          ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
-                          : 'bg-rose-950 text-rose-400 border border-rose-800'
-                      }`}>
-                        {p.in_stock ? 'In Stock' : 'Out of Stock'}
-                      </span>
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            !p.in_stock || Number(p.stock_quantity) <= 0
+                              ? 'bg-rose-950 text-rose-400 border border-rose-800'
+                              : Number(p.stock_quantity) <= 5
+                              ? 'bg-amber-950 text-amber-400 border border-amber-800'
+                              : 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                          }`}>
+                            {!p.in_stock || Number(p.stock_quantity) <= 0
+                              ? 'Out of Stock'
+                              : Number(p.stock_quantity) <= 5
+                              ? 'Low Stock'
+                              : 'In Stock'}
+                          </span>
+                        </div>
+                        <div className="text-xs font-bold text-slate-200">
+                          {p.stock_quantity ?? 0} <span className="text-[10px] font-normal text-slate-400">{p.unit || 'units'}</span>
+                        </div>
+                      </div>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end space-x-2">
@@ -380,7 +393,7 @@ export const AdminProducts: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-slate-300 font-semibold mb-1">Base Price (LKR) *</label>
                   <input
@@ -412,6 +425,25 @@ export const AdminProducts: React.FC = () => {
                     value={formData.unit}
                     onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-cyan-400 font-semibold mb-1">Stock Quantity (Units) *</label>
+                  <input
+                    type="number"
+                    required
+                    min={0}
+                    value={formData.stock_quantity}
+                    onChange={(e) => {
+                      const qty = Number(e.target.value);
+                      setFormData({
+                        ...formData,
+                        stock_quantity: qty,
+                        in_stock: qty > 0,
+                      });
+                    }}
+                    className="w-full bg-slate-800 border border-cyan-700/60 rounded-xl px-3.5 py-2 text-white font-bold focus:outline-none focus:border-cyan-400"
                   />
                 </div>
               </div>
